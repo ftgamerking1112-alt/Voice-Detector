@@ -10,7 +10,11 @@ def upload_audio(request):
     if file is None:
         return Response({"error": "No audio file uploaded"}, status=400)
 
-    prediction, confidence = detect_voice(file.name)
+    scan = VoiceScan.objects.create(audio=file, prediction="", confidence=0)
+prediction, confidence = detect_voice(scan.audio.path)
+scan.prediction = prediction
+scan.confidence = confidence
+scan.save()
 
     scan = VoiceScan.objects.create(
         audio=file,
