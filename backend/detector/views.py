@@ -3,6 +3,18 @@ from rest_framework.response import Response
 from .models import VoiceScan
 from .ml import detect_voice
 
+@api_view(['GET'])
+def api_root(request):
+    return Response({
+        "status": "online",
+        "service": "Voice Detector API",
+        "endpoints": {
+            "upload_audio": "/api/upload/",
+            "admin": "/admin/",
+            "media": "/media/"
+        }
+    })
+
 @api_view(['POST'])
 def upload_audio(request):
     file = request.FILES.get('audio')
